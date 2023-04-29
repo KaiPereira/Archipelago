@@ -41,6 +41,16 @@ export default function Home() {
         console.log(error.message);
     });
   }
+  
+  const playAudio = () => {
+    var audio: any = document.getElementById("my-audio");
+    audio.play();
+  }
+
+  const pauseAudio = () => {
+    var audio: any = document.getElementById("my-audio");
+    audio.pause();
+  }
 
   return (
     <main>
@@ -68,9 +78,13 @@ export default function Home() {
         :
         <>
           <img src={file} className="bird-image"/>
-          <h2>{bird.replaceAll("-", " ")}-{(birdConfidence * 100).toFixed(0) + '%'}</h2>
+          <h2>{bird.replaceAll("-", " ")} - {(birdConfidence * 100).toFixed(0) + '%'}</h2>
           <p className="bird-description">{birdDetails.description}</p>
-          <iframe src={birdDetails.audio}></iframe>
+          <audio controls preload="metadata" src={birdDetails.audio} id="my-audio" />
+          <div className="audio-buttons">
+            <button onClick={playAudio} className="submit">Play Bird Noise</button>
+            <button onClick={pauseAudio} className="button-2">Pause</button>
+          </div>
           <div className="bird-grid">
             {
               birdDetails.images.map((image: any) => {

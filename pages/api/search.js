@@ -61,6 +61,12 @@ export default async function handler(req, res) {
 
     let audio = audioDom.window.document.getElementsByClassName("soundframe")[0]
     audio = audio.querySelector("iframe").getAttribute("src")
+    const audioPageUrl = audio
+    const audioPageData = await axios.get(audioPageUrl)
+    const audioPageDom = new JSDOM(audioPageData.data);
+
+    audio = audioPageDom.window.document.querySelector("audio").getAttribute("src")
+
 
     const info = {
         family: family,
@@ -71,6 +77,8 @@ export default async function handler(req, res) {
         images: imageUrls,
         audio: audio
     }
+
+    console.log(audio)
 
     // send the data to the frontend
     res.status(200).json(info);
