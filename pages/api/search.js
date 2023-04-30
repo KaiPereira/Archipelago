@@ -67,8 +67,35 @@ export default async function handler(req, res) {
 
     audio = audioPageDom.window.document.querySelector("audio").getAttribute("src")
     
-    const inDepthInformation = `https://avibase.bsc-eoc.org/species.jsp?lang=EN&avibaseid=${speciesId}&sec=lifehistory`
+    const inDepthInformation = `https://avibase.bsc-eoc.org/species.jsp?lang=EN&avibaseid=${speciesId}&sec=links`
 
+
+    const sourcesUrl = `https://avibase.bsc-eoc.org/species.jsp?lang=EN&avibaseid=${speciesId}&sec=links`
+    const sourcesData = await axios.get(sourcesUrl)
+    const sourcesDom = new JSDOM(sourcesData.data);
+
+    let resources = sourcesDom.window.document.querySelector("table")
+    resources = resources.querySelectorAll("tr")
+    
+    resources = [...resources].map((resource) => {
+        const resourceParts = resource.querySelectorAll("td")
+        const resourceImage = resourceParts[0].firstChild
+        
+        const resourceUrlTag = resourceParts[1].firstChild
+        
+        const resourceName = resourceUrlTag.textContent
+        const resourceUrl = resourceUrlTag.getAttribute("href")
+
+        console.log(resourceImage)
+
+        return {
+            image: resourceImage ? `https://avibase.bsc-eoc.org${resourceImage.getAttribute("src")}` : null,
+            name: resourceName,
+            url: resourceUrl
+        }
+    })
+    
+    
     const info = {
         family: family,
         genus: genus,
@@ -77,10 +104,9 @@ export default async function handler(req, res) {
         range: range,
         images: imageUrls,
         audio: audio,
-        inDepthInformation: inDepthInformation
+        inDepthInformation: inDepthInformation,
+        resources: resources
     }
-
-    console.log(audio)
 
     // send the data to the frontend
     res.status(200).json(info);

@@ -112,6 +112,14 @@ export default function Home() {
               })
             }
           </div>
+          <h2 className="learn-more-header">Learn More</h2>
+          <ul className="resource-grid">
+            {
+              birdDetails.resources.map((resource: any, index: any) => {
+                return <li><a href={resource.url}>{resource.name}</a></li>
+              })
+            }
+          </ul>
           <button onClick={getComplexInfo} className="submit">In-Depth Info</button>
         </>
         }

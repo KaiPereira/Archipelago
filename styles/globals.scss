@@ -289,3 +289,23 @@ h2 {
 audio {
 	display: none;
 }
+
+.resource-grid {
+	display: flex;
+	flex-flow: column;
+	gap: 10px;
+	margin-top: 15px;
+
+	a {
+		color: $gray;
+		transition: color 0.3s;
+
+		&:hover {
+			color: darken($gray, 25%)
+		}
+	}
+}
+
+.learn-more-header {
+	margin-top: 35px;
+}
