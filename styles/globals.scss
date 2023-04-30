@@ -62,11 +62,15 @@ body * {
 	font-family: 'Montserrat', sans-serif;
 }
 
+body {
+	padding: 90px 0px;
+	height: 100%;
+}
+
 main {
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	height: 100vh;
 }
 
 .container {
@@ -75,7 +79,6 @@ main {
 	align-items: center;
 	text-align: center;
 	width: 100%;
-	margin-top: 90px;
 }
 
 .logo-container {
@@ -275,4 +278,8 @@ h2 {
 	max-width: 400px;
 	margin-top: 25px;
 	line-height: 24px;
+}
+
+audio {
+	display: none;
 }
