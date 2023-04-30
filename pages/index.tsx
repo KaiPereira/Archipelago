@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import fs from "fs"
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
   const [file, setFile] = useState<any>(null);
   const [bird, changeBird] = useState<any>()
   const [birdConfidence, changeBirdConfidence] = useState<any>()
   const [birdDetails, changeBirdDetails] = useState<any>()
   const [loading, changeLoading] = useState(false)
+  const [error, changeError] = useState<any>(false)
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
@@ -20,6 +23,7 @@ export default function Home() {
 
   const getBird = async () => {
     changeLoading(true)
+    changeError(false)
     axios({
       method: "POST",
       url: "https://detect.roboflow.com/bird-v2/2",
@@ -43,6 +47,7 @@ export default function Home() {
     .catch(function(error) {
         console.log(error.message);
         changeLoading(false)
+        changeError(true)
     });
   }
   
@@ -56,6 +61,10 @@ export default function Home() {
     audio.pause();
   }
 
+  const getComplexInfo = () => {
+    router.push(birdDetails.inDepthInformation)
+  }
+
   return (
     <main>
       <div className="container">
@@ -63,7 +72,7 @@ export default function Home() {
           <i className="fa-solid fa-feather"></i>
         </div>
         <h1>Archipelago</h1>
-        <p className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ex dui, laoreet at blandit nec.</p>
+        <p className="description">Simply upload a photo of your bird and get it's bird noises, information, pictures and more!</p>
         { !loading ?
         <>
         { !birdDetails ?
@@ -79,6 +88,7 @@ export default function Home() {
               <img src={file} />
               }
           </label>
+          {error && <p className="error">An Unknown Error has Occured, Please Upload a New Photo!</p>}
           <button onClick={getBird} className="submit">View Bird Details</button>
         </>
         :
@@ -97,11 +107,12 @@ export default function Home() {
           </div>
           <div className="bird-grid">
             {
-              birdDetails.images.map((image: any) => {
-                return <img src={image} alt="Bird image" />
+              birdDetails.images.map((image: any, index: any) => {
+                return <img src={image} alt="Bird image" key={index} />
               })
             }
           </div>
+          <button onClick={getComplexInfo} className="submit">In-Depth Info</button>
         </>
         }
         </>
