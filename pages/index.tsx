@@ -7,6 +7,7 @@ export default function Home() {
   const [bird, changeBird] = useState<any>()
   const [birdConfidence, changeBirdConfidence] = useState<any>()
   const [birdDetails, changeBirdDetails] = useState<any>()
+  const [loading, changeLoading] = useState(false)
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
@@ -18,6 +19,7 @@ export default function Home() {
   };
 
   const getBird = async () => {
+    changeLoading(true)
     axios({
       method: "POST",
       url: "https://detect.roboflow.com/bird-v2/2",
@@ -36,9 +38,11 @@ export default function Home() {
       const response2 = await axios.get(`/api/search?bird=${response.data.predictions[0].class}`); // call the API endpoint
       console.log(response2)
       changeBirdDetails(response2.data)
+      changeLoading(false)
     })
     .catch(function(error) {
         console.log(error.message);
+        changeLoading(false)
     });
   }
   
@@ -60,9 +64,11 @@ export default function Home() {
         </div>
         <h1>Archipelago</h1>
         <p className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ex dui, laoreet at blandit nec.</p>
+        { !loading ?
+        <>
         { !birdDetails ?
         <>
-          <input id="file-upload" type="file" onChange={handleFileChange} />
+          <input id="file-upload" type="file" onChange={handleFileChange} accept="image/png, image/jpeg"/>
           <label htmlFor="file-upload" className="custom-file-upload">
               {!file ? 
               <>
@@ -79,7 +85,11 @@ export default function Home() {
         <>
           <img src={file} className="bird-image"/>
           <h2>{bird.replaceAll("-", " ")} - {(birdConfidence * 100).toFixed(0) + '%'}</h2>
+          <p className="subheader">Genus: {birdDetails.genus}</p>
+          <p className="subheader">Family: {birdDetails.family}</p>
+          <p className="subheader">Scientific: {birdDetails.scientific}</p>
           <p className="bird-description">{birdDetails.description}</p>
+          <p className="subheader">Range: {birdDetails.range}</p>
           <audio controls preload="metadata" src={birdDetails.audio} id="my-audio" />
           <div className="audio-buttons">
             <button onClick={playAudio} className="submit">Play Bird Noise</button>
@@ -93,6 +103,12 @@ export default function Home() {
             }
           </div>
         </>
+        }
+        </>
+        :
+        <div className="loading">
+          <div className="loading-inside"></div>
+        </div>
         }
       </div>
     </main>
