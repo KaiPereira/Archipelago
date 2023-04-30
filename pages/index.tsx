@@ -116,7 +116,7 @@ export default function Home() {
           <ul className="resource-grid">
             {
               birdDetails.resources.map((resource: any, index: any) => {
-                return <li><a href={resource.url}>{resource.name}</a></li>
+                return <li><a href={resource.url} key={index}>{resource.name}</a></li>
               })
             }
           </ul>
