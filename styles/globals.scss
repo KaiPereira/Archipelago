@@ -63,7 +63,7 @@ body * {
 }
 
 body {
-	padding: 90px 0px;
+	padding: 90px 10px;
 	height: 100%;
 }
 
@@ -197,6 +197,7 @@ h1 {
 	max-width: 350px;
 	height: 210px;
 	border-radius: 15px;
+	object-fit: cover;
 }
 
 h2 {
@@ -207,14 +208,17 @@ h2 {
 }
 
 .bird-grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	display: flex;
 	gap: 25px;
 	margin-top: 50px;
+	max-width: 800px;
+	justify-content: space-around;
+	flex-wrap: wrap;
 	flex-wrap: wrap;
 
 	img {
-		width: 250px;
+		width: 100%;
+		max-width: 250px;
 		height: 250px;
 		object-fit: cover;
 		border-radius: 15px;
@@ -232,7 +236,9 @@ h2 {
 
 .audio-buttons {
 	display: flex;
-	gap: 15px;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0px 15px;
 }
 
 .loading {

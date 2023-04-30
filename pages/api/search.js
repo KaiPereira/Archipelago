@@ -67,7 +67,7 @@ export default async function handler(req, res) {
 
     audio = audioPageDom.window.document.querySelector("audio").getAttribute("src")
     
-    const inDepthInformation = `https://avibase.bsc-eoc.org/species.jsp?lang=EN&avibaseid=${speciesId}`
+    const inDepthInformation = `https://avibase.bsc-eoc.org/species.jsp?lang=EN&avibaseid=${speciesId}&sec=lifehistory`
 
     const info = {
         family: family,
