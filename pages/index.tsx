@@ -72,7 +72,7 @@ export default function Home() {
           <i className="fa-solid fa-feather"></i>
         </div>
         <h1>Archipelago</h1>
-        <p className="description">Simply upload a photo of your bird and get it's bird noises, information, pictures and more!</p>
+        <p className="description">Simply upload a photo of your bird and get it&apos;s bird noises, information, pictures and more!</p>
         { !loading ?
         <>
         { !birdDetails ?
